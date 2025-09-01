@@ -1,0 +1,50 @@
+Sum of Mode
+Solution:
+from collections import defaultdict
+
+class Solution:
+    def sumOfModes(self, arr, k):
+        n = len(arr)
+        freq = defaultdict(int)
+        freq_map = defaultdict(set)
+        max_freq = 0
+        sum_modes = 0
+        
+        # Initialize first window
+        for i in range(k):
+            val = arr[i]
+            freq[val] += 1
+            f = freq[val]
+            if f > 1:
+                freq_map[f-1].discard(val)
+            freq_map[f].add(val)
+            if f > max_freq:
+                max_freq = f
+        
+        sum_modes += min(freq_map[max_freq])
+        
+        # Slide the window
+        for i in range(k, n):
+            # Remove outgoing
+            out_val = arr[i - k]
+            old_f = freq[out_val]
+            freq[out_val] -= 1
+            freq_map[old_f].discard(out_val)
+            if freq[out_val] > 0:
+                freq_map[old_f - 1].add(out_val)
+            if not freq_map[max_freq]:
+                max_freq -= 1
+            
+            # Add incoming
+            in_val = arr[i]
+            freq[in_val] += 1
+            f = freq[in_val]
+            if f > 1:
+                freq_map[f-1].discard(in_val)
+            freq_map[f].add(in_val)
+            if f > max_freq:
+                max_freq = f
+            
+            sum_modes += min(freq_map[max_freq])
+        
+        return sum_modes
