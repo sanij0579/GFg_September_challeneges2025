@@ -1,0 +1,52 @@
+Swap Kth nodes from ends
+Solution:
+class Solution:
+    def swapKth(self, head, k):
+        if not head:
+            return None
+
+        # Count total nodes
+        n = 0
+        temp = head
+        while temp:
+            n += 1
+            temp = temp.next
+
+        # If k is invalid
+        if k > n:
+            return head
+
+        # If kth from start == kth from end, no swap needed
+        if 2 * k - 1 == n:
+            return head
+
+        # Find kth node from start
+        prevX = None
+        currX = head
+        for _ in range(k - 1):
+            prevX = currX
+            currX = currX.next
+
+        # Find kth node from end (n-k+1 from start)
+        prevY = None
+        currY = head
+        for _ in range(n - k):
+            prevY = currY
+            currY = currY.next
+
+        # If X is not head
+        if prevX:
+            prevX.next = currY
+        else:
+            head = currY
+
+        # If Y is not head
+        if prevY:
+            prevY.next = currX
+        else:
+            head = currX
+
+        # Swap next pointers
+        currX.next, currY.next = currY.next, currX.next
+
+        return head
