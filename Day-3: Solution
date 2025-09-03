@@ -1,0 +1,29 @@
+Reverse a Doubly Linked List
+Solution:
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.next = None
+        self.prev = None
+
+
+class Solution:
+    def reverse(self, head):
+        # If list is empty or has only one node, return head directly
+        if head is None or head.next is None:
+            return head
+
+        curr = head
+        new_head = None
+
+        while curr:
+            # Swap next and prev for the current node
+            curr.prev, curr.next = curr.next, curr.prev
+            
+            # Update new head (will become the last node in traversal)
+            new_head = curr
+            
+            # Move to next node (which is originally prev)
+            curr = curr.prev
+
+        return new_head
