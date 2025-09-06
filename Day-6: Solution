@@ -1,0 +1,31 @@
+Find length of Loop
+Solution:
+class Solution:
+    def lengthOfLoop(self, head):
+        if not head:
+            return 0
+
+        slow = head
+        fast = head
+
+        # Step 1: Detect Loop using Floyd’s Algorithm
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            # Loop detected
+            if slow == fast:
+                return self.countLoopLength(slow)
+
+        return 0  # No loop
+
+    def countLoopLength(self, meeting_point):
+        count = 1
+        current = meeting_point.next
+
+        # Count nodes until we come back to meeting point
+        while current != meeting_point:
+            count += 1
+            current = current.next
+
+        return count
