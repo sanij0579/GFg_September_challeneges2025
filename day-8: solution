@@ -1,0 +1,36 @@
+Merge Sort for Linked List
+solution:
+import sys
+sys.setrecursionlimit(1 << 20)
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class Solution:
+    def mergeSort(self, head):
+        if not head or not head.next:
+            return head
+        # find middle (slow prev)
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        mid = slow.next
+        slow.next = None
+        left = self.mergeSort(head)
+        right = self.mergeSort(mid)
+        return self._merge(left, right)
+
+    def _merge(self, a, b):
+        dummy = Node(0)
+        tail = dummy
+        while a and b:
+            if a.data <= b.data:
+                tail.next, a = a, a.next
+            else:
+                tail.next, b = b, b.next
+            tail = tail.next
+        tail.next = a or b
+        return dummy.next
