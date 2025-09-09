@@ -1,0 +1,15 @@
+Assign Mice Holes
+Solution:
+class Solution:
+    def assignHole(self, mices, holes):
+        # Step 1: Sort both arrays
+        mices.sort()
+        holes.sort()
+        
+        max_time = 0
+        
+        # Step 2: Assign each mouse to the closest hole
+        for i in range(len(mices)):
+            max_time = max(max_time, abs(mices[i] - holes[i]))
+        
+        return max_time
