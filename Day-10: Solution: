@@ -1,0 +1,25 @@
+Largest number in one swap
+Solution:
+class Solution:
+    def largestSwap(self, s: str) -> str:
+        n = len(s)
+        s_list = list(s)
+
+        # Step 1: Track the index of max digit from right to left
+        max_idx = [0] * n
+        max_pos = n - 1
+
+        for i in range(n - 1, -1, -1):
+            if s_list[i] > s_list[max_pos]:
+                max_pos = i
+            max_idx[i] = max_pos
+
+        # Step 2: Find the first position where swapping increases value
+        for i in range(n):
+            if s_list[i] < s_list[max_idx[i]]:
+                # Swap
+                s_list[i], s_list[max_idx[i]] = s_list[max_idx[i]], s_list[i]
+                return "".join(s_list)
+
+        # Step 3: If no beneficial swap, return original string
+        return s
