@@ -1,0 +1,37 @@
+Minimum Jumps
+Solution:
+class Solution:
+    def minJumps(self, arr):
+        n = len(arr)
+        # Base cases
+        if n <= 1:
+            return 0
+        if arr[0] == 0:
+            return -1
+        
+        # Initialize
+        jumps = 1            # at least ek jump lagega
+        ladder = arr[0]      # max reachable index from current window
+        stairs = arr[0]      # steps left in current jump
+        
+        for i in range(1, n):
+            # Reached end
+            if i == n - 1:
+                return jumps
+            
+            # Update ladder (max reach possible so far)
+            ladder = max(ladder, i + arr[i])
+            
+            # Move one step
+            stairs -= 1
+            
+            # If no more stairs left
+            if stairs == 0:
+                jumps += 1
+                # Check if current index > ladder → unreachable
+                if i >= ladder:
+                    return -1
+                # Refill stairs with steps to new ladder
+                stairs = ladder - i
+        
+        return -1
