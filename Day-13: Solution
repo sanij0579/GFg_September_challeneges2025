@@ -1,0 +1,39 @@
+Minimum Cost to cut a board into squares
+Solution:
+class Solution:
+    def minCost(self, n, m, x, y):
+        # Sort cuts in descending order (greedy step)
+        x.sort(reverse=True)
+        y.sort(reverse=True)
+
+        # initial number of pieces
+        horizontal_segments = 1
+        vertical_segments = 1
+        cost = 0
+
+        i, j = 0, 0
+        while i < len(x) and j < len(y):
+            if x[i] > y[j]:
+                # vertical cut
+                cost += x[i] * horizontal_segments
+                vertical_segments += 1
+                i += 1
+            else:
+                # horizontal cut
+                cost += y[j] * vertical_segments
+                horizontal_segments += 1
+                j += 1
+
+        # Remaining vertical cuts
+        while i < len(x):
+            cost += x[i] * horizontal_segments
+            vertical_segments += 1
+            i += 1
+
+        # Remaining horizontal cuts
+        while j < len(y):
+            cost += y[j] * vertical_segments
+            horizontal_segments += 1
+            j += 1
+
+        return cost
