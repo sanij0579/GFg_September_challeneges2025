@@ -1,0 +1,34 @@
+
+Decode the string
+Solution:
+
+
+class Solution:
+    def decodedString(self, s: str) -> str:
+        # stacks to store repeat counts and the strings built before '['
+        count_stack = []
+        string_stack = []
+        current_num = 0
+        current_chars = []  # build current substring as list of chars
+
+        for ch in s:
+            if ch.isdigit():
+                # accumulate multi-digit number
+                current_num = current_num * 10 + (ord(ch) - 48)
+            elif ch == '[':
+                # push current number and current string, then reset
+                count_stack.append(current_num)
+                string_stack.append(''.join(current_chars))
+                current_num = 0
+                current_chars = []
+            elif ch == ']':
+                # pop repeat count and previous string, expand and continue
+                k = count_stack.pop()
+                prev = string_stack.pop()
+                expanded = prev + (''.join(current_chars) * k)
+                current_chars = list(expanded)
+            else:
+                # normal character
+                current_chars.append(ch)
+
+        return ''.join(current_chars)
