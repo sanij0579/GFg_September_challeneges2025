@@ -1,0 +1,20 @@
+Next Greater Element in Circular Array
+Solution:
+class Solution:
+    def nextGreater(self, arr):
+        n = len(arr)
+        res = [-1] * n
+        stack = []  # store indices
+
+        # Traverse twice for circular effect
+        for i in range(2 * n - 1, -1, -1):
+            while stack and arr[stack[-1]] <= arr[i % n]:
+                stack.pop()
+
+            if i < n:  # fill result only for first pass
+                if stack:
+                    res[i] = arr[stack[-1]]
+
+            stack.append(i % n)
+
+        return res
