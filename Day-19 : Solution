@@ -1,0 +1,18 @@
+Min Add to Make Parentheses Valid
+Solution:
+class Solution:
+    def minParentheses(self, s: str) -> int:
+        balance = 0      # counts unmatched '('
+        insertions = 0   # counts required '(' insertions
+
+        for ch in s:
+            if ch == '(':
+                balance += 1
+            else:  # ch == ')'
+                if balance > 0:
+                    balance -= 1  # match with a previous '('
+                else:
+                    insertions += 1  # need an extra '('
+
+        # any remaining '(' must be closed
+        return insertions + balance
