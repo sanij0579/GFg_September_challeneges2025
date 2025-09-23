@@ -1,0 +1,22 @@
+Queue Reversal
+
+Solution:
+
+from collections import deque
+
+class Solution:
+    def reverseQueue(self, q):
+        # base case
+        if not q:
+            return q
+        
+        # step 1: remove front element
+        front = q.popleft()
+        
+        # step 2: reverse remaining queue
+        self.reverseQueue(q)
+        
+        # step 3: add removed element at the rear
+        q.append(front)
+        
+        return q
